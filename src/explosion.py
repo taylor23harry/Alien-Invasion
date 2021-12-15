@@ -1,12 +1,15 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Explosion(Sprite):
     """Explosion class for when a bullet collides with a Alien."""
+
     def __init__(self, aigame, bullet, alien):
         super().__init__()
         self.screen = aigame.screen
-        self.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\boom1.PNG')
+        self.image = pygame.image.load(
+            'E:\\Programming\\Projects\\Alien Invasion\\images\\boom1.PNG')
         self.rect = self.image.get_rect()
         # Set location to bullet.
         self.rect.y = alien.rect.centery

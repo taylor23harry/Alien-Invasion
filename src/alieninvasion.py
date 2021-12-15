@@ -9,12 +9,16 @@ from bullet import Bullet
 from explosion import Explosion
 from settings import Settings
 
+
 def start_menu_off(aigame):
-        aigame.background = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\stars.jpg')
-        aigame.background_rect = aigame.background.get_rect()
-        
+    aigame.background = pygame.image.load(
+        'E:\\Programming\\Projects\\Alien Invasion\\images\\stars.jpg')
+    aigame.background_rect = aigame.background.get_rect()
+
+
 class AlienInvasion:
     """Main game class that manages game behaviour."""
+
     def __init__(self):
         """Initialises the main game attributes."""
         pygame.init()
@@ -23,7 +27,8 @@ class AlienInvasion:
         # Creates settings instance.
         self.settings = Settings()
         # Initialises screen.
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
         self.screen_rect = self.screen.get_rect()
         # creates ship, alien and explosion instances.
         self.ship = Ship(self)
@@ -35,7 +40,8 @@ class AlienInvasion:
         self.aliens_2 = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         # Background.
-        self.background = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\start_screen.jpg')
+        self.background = pygame.image.load(
+            'E:\\Programming\\Projects\\Alien Invasion\\images\\start_screen.jpg')
         self.background_rect = self.background.get_rect()
         self.background_rect.center = self.screen_rect.center
         # Other Attributes.
@@ -45,13 +51,15 @@ class AlienInvasion:
         self.animation_timer = 0
         self.current_image = 1
         self.current_explosion = 1
-        self.game_start_timer = 0 # Amount of time the game waits before spawning aliens after start screen.
-        self.alien_timer = random.randint(self.settings.alien_min_time, self.settings.alien_max_time)
+        # Amount of time the game waits before spawning aliens after start screen.
+        self.game_start_timer = 0
+        self.alien_timer = random.randint(
+            self.settings.alien_min_time, self.settings.alien_max_time)
         # Score counter
         self.score = 0
 
         # Start game after start screen
-        
+
         self.game_on = 0
 
     def run_game(self):
@@ -74,24 +82,28 @@ class AlienInvasion:
             self.timer = 0
         if self.animation_timer == 200:
             if self.current_image == 1:
-                self.ship.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\player_idle2.png')
+                self.ship.image = pygame.image.load(
+                    'E:\\Programming\\Projects\\Alien Invasion\\images\\player_idle2.png')
                 if self.settings.logs == 2:
                     print(f"Set Alien and ship images to 2.")
                 for a in self.aliens:
-                    a.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\Alien1_2.png')
+                    a.image = pygame.image.load(
+                        'E:\\Programming\\Projects\\Alien Invasion\\images\\Alien1_2.png')
                 self.current_image = 2
-                self.animation_timer = 0                                
-                #if self.settings.logs == 1:
+                self.animation_timer = 0
+                # if self.settings.logs == 1:
                 #    print("Changed Ship and Alien images to 2")
             else:
-                self.ship.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\player_idle1.png')
+                self.ship.image = pygame.image.load(
+                    'E:\\Programming\\Projects\\Alien Invasion\\images\\player_idle1.png')
                 if self.settings.logs == 2:
                     print(f"Set Alien and ship images to 1.")
                 for a in self.aliens:
-                    a.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\Alien1_1.png')
+                    a.image = pygame.image.load(
+                        'E:\\Programming\\Projects\\Alien Invasion\\images\\Alien1_1.png')
                 self.current_image = 1
                 self.animation_timer = 0
-                #if self.settings.logs == 1:
+                # if self.settings.logs == 1:
                 #    print("Changed Ship and Alien images to 1")
         # Animate explosions
         """The following block uses timers and a boolean to animate to the 1st,
@@ -102,17 +114,20 @@ class AlienInvasion:
                 if e.current_image == 1:
                     if self.settings.logs > 2:
                         print(f"Set {e} image to 2.")
-                    e.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\boom2.PNG')
+                    e.image = pygame.image.load(
+                        'E:\\Programming\\Projects\\Alien Invasion\\images\\boom2.PNG')
                     if e.first_pass == True:
                         e.current_image = 2
                 elif e.current_image == 2:
-                    e.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\boom3.PNG')
+                    e.image = pygame.image.load(
+                        'E:\\Programming\\Projects\\Alien Invasion\\images\\boom3.PNG')
                     if self.settings.logs > 2:
                         print(f"Set {e} image to 3.")
                     if e.first_pass == True:
                         e.current_image = 3
                 else:
-                    e.image = pygame.image.load('E:\\Programming\\Projects\\Alien Invasion\\images\\boom1.PNG')
+                    e.image = pygame.image.load(
+                        'E:\\Programming\\Projects\\Alien Invasion\\images\\boom1.PNG')
                     if self.settings.logs > 2:
                         print(f"Set {e} image to 1.")
                         e.current_image = 1
@@ -131,7 +146,7 @@ class AlienInvasion:
                 if self.game_on == 0:
                     self.game_on = 1
                     start_menu_off(self)
-    
+
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
             # Move the ship to the right.
@@ -163,12 +178,12 @@ class AlienInvasion:
         for bullet in self.bullets:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-        
+
         # Updates bullets on screen.
         self.bullets.update()
         for b in self.bullets:
             b.draw_bullet()
-    
+
     def _update_alien(self):
         """Draws each alien."""
         # Deletes alien when it gets to the bottom of the screen
@@ -177,7 +192,8 @@ class AlienInvasion:
                 self.aliens.remove(a)
         # Draws and updates each alien individually
         for a in self.aliens:
-            a.image = pygame.transform.scale(a.image, self.settings.alien_scale)
+            a.image = pygame.transform.scale(
+                a.image, self.settings.alien_scale)
             a.update_alien()
         #    a._blitme()
 
@@ -204,12 +220,12 @@ class AlienInvasion:
                     self.aliens.remove(a)
                     self.bullets.remove(bullet)
                     self.score += 1
-    
+
     def _alien_hit(self, aigame, bullet, a):
         """Registers the hit and calls the explosion animation."""
         new_explosion = Explosion(self, bullet, a)
         self.explosions.add(new_explosion)
-    
+
     def _draw_explosions(self):
         """Draws the explosion images."""
         for explosion in self.explosions:
@@ -217,13 +233,16 @@ class AlienInvasion:
 
     def _randomise_spawn(self):
         """Randomises the value the timer needs to reach before spawning another alien."""
-        self.alien_timer = random.randint(self.settings.alien_min_time, self.settings.alien_max_time)
+        self.alien_timer = random.randint(
+            self.settings.alien_min_time, self.settings.alien_max_time)
 
     def _draw_score(self):
         """Draws the score on the top left."""
-        score_text = self.game_font.render(f"Score : {str(self.score)}", True, (255,255,255))
+        score_text = self.game_font.render(
+            f"Score : {str(self.score)}", True, (255, 255, 255))
         score_rect = score_text.get_rect()
-        score_rect.x, score_rect.y = self.screen_rect.right - (score_rect.right - score_rect.left) - 10, 5
+        score_rect.x, score_rect.y = self.screen_rect.right - \
+            (score_rect.right - score_rect.left) - 10, 5
         self.screen.blit(score_text, score_rect)
 
     def _check_for_level_up(self):
@@ -233,12 +252,11 @@ class AlienInvasion:
 
     def _levelup(self, level):
         """Changes game behaviour for a levelup."""
-        if level == 1: # Current level
+        if level == 1:  # Current level
             """Spawn alien2."""
             new_alien_2 = Alien_2(self)
             if len(self.aliens) < self.settings.max_aliens and self.game_start_timer > 1000:
                 self.aliens_2.add(new_alien_2)
-
 
     def _update_screen(self):
         """Updates the screen with new info."""
@@ -246,7 +264,7 @@ class AlienInvasion:
         self.screen.blit(self.background, self.background_rect)
         # Draws images to screen
         if self.game_on == 1:
-            #self._check_for_level_up()
+            # self._check_for_level_up()
             self.ship.blitme()
             self.ship.update(self)
             self._update_bullets()
